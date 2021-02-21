@@ -17,7 +17,7 @@ export interface MySelectProps extends FormControlProps {
   enums: any[];
 }
 
-const Select: React.SFC<MySelectProps> = (props: MySelectProps) => {
+const Select: React.FunctionComponent<MySelectProps> = (props: MySelectProps) => {
   const {
     id,
     inputRef,
@@ -38,7 +38,7 @@ const Select: React.SFC<MySelectProps> = (props: MySelectProps) => {
 
   return (
     <FormControl mt={mt} isInvalid={!!errors[id]} {...rest}>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+      <FormLabel color={(!!errors[id]) ? 'red.500' : 'inherit'} htmlFor={id}>{label}</FormLabel>
       <ChakraSelect
         ref={inputRef}
         defaultValue={defaultValue || ""}

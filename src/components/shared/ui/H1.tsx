@@ -5,7 +5,7 @@ export interface H1Props extends HeadingProps {
   focusOnPageLoad?: boolean;
 }
 
-const H1: React.SFC<H1Props> = (props: H1Props) => {
+const H1: React.FunctionComponent<H1Props> = (props: H1Props) => {
   // picking out 'as' property because we don't want it to be used
   const {
     focusOnPageLoad = true,

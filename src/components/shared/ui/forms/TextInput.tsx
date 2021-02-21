@@ -1,9 +1,9 @@
 import {
   FormControl,
   FormControlProps,
+  FormErrorMessage,
   FormLabel,
   Input,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -30,7 +30,7 @@ function TextInput(props: TextInputProps) {
 
   return (
     <FormControl mt={mt} isInvalid={!!errors[id]} {...rest}>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+      <FormLabel color={(!!errors[id]) ? 'red.500' : 'inherit'} htmlFor={id}>{label}</FormLabel>
       <Input
         id={id}
         name={id}
@@ -39,7 +39,7 @@ function TextInput(props: TextInputProps) {
         defaultValue={defaultValue}
         aria-describedby={props.isInvalid ? `${id}_errors` : undefined}
       />
-      <FormErrorMessage id={`${id}_errors`}>{props.children}</FormErrorMessage>
+      <FormErrorMessage fontSize="lg" id={`${id}_errors`}>{props.children}</FormErrorMessage>
     </FormControl>
   );
 }

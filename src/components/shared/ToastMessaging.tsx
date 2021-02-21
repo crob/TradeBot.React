@@ -8,9 +8,10 @@ import { Redirect } from "react-router-dom";
 
 export interface ToastMessagingProps {}
 
-const ToastMessaging: React.SFC<ToastMessagingProps> = (props) => {
+const ToastMessaging: React.FunctionComponent<ToastMessagingProps> = (props) => {
   const toast = useToast();
   const dispatch = useDispatch();
+
   // const toastState: ToastState = useSelector(getToastState);
 
   // useEffect(() => {

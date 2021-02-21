@@ -31,13 +31,11 @@ type AllChakraBreadcrumbProps = RouterLinkProps & ChakraBreadcrumbProps;
 type AllChakraMenuItemProps = RouterLinkProps &
   ChakraMenuItemProps;
 
-const linkColor = "blue.600";
 
 export const Link = React.forwardRef(
   (props: AllLinkProps, ref: React.Ref<any>) => {
     return (
       <ChakraLink
-        color={linkColor}
         {...props}
         // @ts-ignore
         as={RouterLink}
@@ -50,7 +48,6 @@ export const BreadcrumbLink = React.forwardRef(
   (props: AllChakraBreadcrumbProps, ref: React.Ref<any>) => {
     return (
       <ChakraBreadcrumbLink
-        color={linkColor}
         ref={ref}
         {...props}
         // @ts-ignore
@@ -64,7 +61,6 @@ export const MenuItemLink = React.forwardRef(
   (props: AllChakraMenuItemProps, ref: React.Ref<any>) => {
     return (
       <ChakraMenuItem
-        color={linkColor}
         ref={ref}
         {...props}
         // @ts-ignore
@@ -78,7 +74,6 @@ export const NavLink = React.forwardRef(
   (props: AllNavLinkProps, ref: React.Ref<any>) => {
     return (
       <ChakraLink
-        color={linkColor}
         ref={ref}
         {...props}
         // @ts-ignore

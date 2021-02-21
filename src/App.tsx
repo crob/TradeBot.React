@@ -4,21 +4,22 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './components/Home';
 import { Route, Switch } from 'react-router-dom';
-import Login from './components/auth/login';
-import Signup from './components/auth/signup';
+import { Box } from '@chakra-ui/react';
+import LoginPage from './components/auth/LoginPage';
+import SignupPage from './components/auth/SignupPage';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <main>
-          <Switch>
-            <Route path="/signup" exact component={Signup} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/" exact component={Home} />
-          </Switch>
+      <Box as="main" bgGradient="linear(to-t,var(--body-background),gray.800)">
+        <Switch>
+          <Route path="/signup" exact component={SignupPage} />
+          <Route path="/login" exact component={LoginPage} />
+          <Route path="/" exact component={Home} />
+        </Switch>
         {/* <Loader /> */}
-      </main>
+      </Box>
       <Footer />
     </div>
   );

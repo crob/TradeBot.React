@@ -5,7 +5,7 @@ export interface HomeProps {
 
 }
 
-const Home: React.SFC<HomeProps> = () => {
+const Home: React.FunctionComponent<HomeProps> = () => {
   return (
     <>
       <H1>Home</H1>
