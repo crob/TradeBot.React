@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+// import ToastMessaging from './components/shared/ToastMessaging';
+import customTheme from "./theme";
+import { ThemeProvider } from '@emotion/react';
+import { CSSReset } from '@chakra-ui/react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <ThemeProvider theme={customTheme}>
+        <CSSReset />
+        <App />
+        {/* <ToastMessaging /> */}
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
