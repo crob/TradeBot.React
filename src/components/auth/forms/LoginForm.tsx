@@ -5,18 +5,17 @@ import { useForm } from "react-hook-form";
 import FormServerError from '../../shared/ui/forms/FormServerError';
 import TextInput from '../../shared/ui/forms/TextInput';
 import { Link } from '../../shared/chakra-link-fix';
-// import { useDispatch, useSelector } from "react-redux";
-// import { login, getUserState } from "../../store/user";
-// import AuthenticatedRedirect from "../shared/AuthenticatedRedirect";
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserState, login } from '../../../store/reducers/user.reducer';
 
 function LoginForm(props: any) {
   const { handleSubmit, errors, register } = useForm();
-  // const dispatch = useDispatch();
-  // const userState = useSelector(getUserState);
-  function onSubmit(values: any, event: any) {
-    // event.preventDefault();
-    console.log("submit", values, arguments)
-    // dispatch(login(values));
+
+  const dispatch = useDispatch();
+  const userState = useSelector(getUserState);
+
+  function onSubmit(values: any) {
+    dispatch(login(values));
   }
 
   return (
@@ -47,7 +46,7 @@ function LoginForm(props: any) {
         mt={4}
         width="100%"
         marginTop="6"
-        // isLoading={userState.loading}
+        isLoading={userState.loading}
         loadingText="authenticating"
         type="submit"
         aria-describedby="loginError"
@@ -56,7 +55,7 @@ function LoginForm(props: any) {
       </Button>
 
       <FormServerError id="loginError">
-        {/* {userState?.error && "Incorrect Email or Password. Please try again."} */}
+        {userState?.error && "Incorrect Email or Password. Please try again."}
       </FormServerError>
       <Box mt="6">
         <Link to="/forgot-password">Having trouble? reset your password</Link>

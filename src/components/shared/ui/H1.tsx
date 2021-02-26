@@ -1,11 +1,13 @@
 import { Heading, HeadingProps } from '@chakra-ui/react';
-import React from "react";
+import React, { useEffect } from "react";
 
 export interface H1Props extends HeadingProps {
   focusOnPageLoad?: boolean;
 }
 
-const H1: React.FunctionComponent<H1Props> = (props: H1Props) => {
+const H1: React.FC<H1Props> = (props: H1Props) => {
+  let h1Ref: HTMLHeadElement | null;
+
   // picking out 'as' property because we don't want it to be used
   const {
     focusOnPageLoad = true,
@@ -14,6 +16,16 @@ const H1: React.FunctionComponent<H1Props> = (props: H1Props) => {
     mt = "6",
     ...rest
   } = props;
+
+  useEffect(() => {
+    console.log("HERE", h1Ref);
+    // single page apps shoud set the focus to the h1 on page change
+    if (focusOnPageLoad) {
+      setTimeout(() => {
+        h1Ref?.focus();
+      }, 450);
+    }
+  }, []);
 
   const focus = (h1: HTMLHeadElement) => {
     if (h1) {
@@ -25,12 +37,6 @@ const H1: React.FunctionComponent<H1Props> = (props: H1Props) => {
           typeof props.children
         );
       }
-      // single page apps shoud set the focus to the h1 on page change
-      if (focusOnPageLoad) {
-        setTimeout(() => {
-          h1.focus();
-        }, 750);
-      }
     }
   };
 
@@ -41,11 +47,7 @@ const H1: React.FunctionComponent<H1Props> = (props: H1Props) => {
       mt={mt}
       as="h1"
       {...rest}
-      ref={(h1) => {
-        if (h1) {
-          focus(h1);
-        }
-      }}
+      ref={(h1) => h1Ref = h1}
     >
       {props.children}
     </Heading>

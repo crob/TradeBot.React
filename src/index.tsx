@@ -8,14 +8,18 @@ import { BrowserRouter } from 'react-router-dom';
 import customTheme from "./theme";
 import { ThemeProvider } from '@emotion/react';
 import { CSSReset } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={customTheme}>
         <CSSReset />
-        <App />
-        {/* <ToastMessaging /> */}
+        <Provider store={configureStore()}>
+          <App />
+          {/* <ToastMessaging /> */}
+        </Provider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
