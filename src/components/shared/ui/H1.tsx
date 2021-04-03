@@ -18,7 +18,6 @@ const H1: React.FC<H1Props> = (props: H1Props) => {
   } = props;
 
   useEffect(() => {
-    console.log("HERE", h1Ref);
     // single page apps shoud set the focus to the h1 on page change
     if (focusOnPageLoad) {
       setTimeout(() => {
@@ -30,7 +29,7 @@ const H1: React.FC<H1Props> = (props: H1Props) => {
   const focus = (h1: HTMLHeadElement) => {
     if (h1) {
       if (typeof props.children === "string") {
-        document.title = `${props.children} - TradeBot 3000`;
+        document.title = `${props.children}`;
       } else {
         console.error(
           "H1 was set with a non string value, we use this to set the page title and it should be only a string",

@@ -1,6 +1,6 @@
 import H1 from './shared/ui/H1';
 import { Box } from '@chakra-ui/react';
-import { Link } from './shared/chakra-link-fix';
+import { Link } from './shared/ChakraLinkFix';
 import React from 'react';
 import AuthenticatedRedirect from './shared/AuthenticatedRedirect';
 

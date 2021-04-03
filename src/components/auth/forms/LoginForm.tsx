@@ -4,7 +4,7 @@ import { Button, Box } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import FormServerError from '../../shared/ui/forms/FormServerError';
 import TextInput from '../../shared/ui/forms/TextInput';
-import { Link } from '../../shared/chakra-link-fix';
+import { Link } from '../../shared/ChakraLinkFix';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserState, login } from '../../../store/reducers/user.reducer';
 

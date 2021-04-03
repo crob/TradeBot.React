@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+import { getByLabelText } from '@testing-library/dom';
 import React from "react";
 
 interface TextInputProps extends FormControlProps {
@@ -28,9 +29,13 @@ function TextInput(props: TextInputProps) {
     ...rest
   } = props;
 
+  const getLabel= () => {
+    return (props.labelComponent) ? props.labelComponent : props.label;
+  }
+
   return (
     <FormControl mt={mt} isInvalid={!!errors[id]} {...rest}>
-      <FormLabel color={(!!errors[id]) ? 'red.500' : 'inherit'} htmlFor={id}>{label}</FormLabel>
+      <FormLabel color={(!!errors[id]) ? 'red.500' : 'inherit'} htmlFor={id}>{getLabel()}</FormLabel>
       <Input
         id={id}
         name={id}

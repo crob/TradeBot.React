@@ -102,6 +102,10 @@ const {
 } = slice.actions;
 export default slice.reducer;
 
+export const userReceivedAction = userReceived;
+export const userLoggedOutAction = userLoggedOut;
+export const userLoggedInAction = userLoggedIn;
+
 export const getUserState = (state: any) => state.user;
 
 export const getCurrentUser = (state: any) => state.user.current;

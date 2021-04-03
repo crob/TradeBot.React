@@ -4,9 +4,10 @@ import DateHelper from "./date-helper";
 export default class HttpHelper {
   static dateReviver(key: string, value: any) {
     if (typeof key === "string") {
-      if (key === "date" || (key.endsWith("Date") && value)) {
-        const [date] = value.split("T");
-        return DateHelper.format(date);
+      if ((key === "date" || key.endsWith("Date") || key.endsWith("At")) && value) {
+        // const [date] = value.split("T");
+        // return DateHelper.format(date);2
+        return value;
       }
     }
     return value;
