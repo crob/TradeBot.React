@@ -25,19 +25,32 @@ export class CoinGeckoService {
     this.userCoins = userCoins;
     this.dispath = dispatch;
 
-    if (!this.coinGeckCoins) {
-      this.coinGeckCoins = await this.cg.getCoinsList();
-    }
+    await this.fetchCoinList();
 
     this.recursiveFetch();
+  }
+
+  private async fetchCoinList(): Promise<{ response: Response; data: ICoinsList; endpoint: string; } | null> {
+    if (!this.coinGeckCoins) {
+      try {
+        this.coinGeckCoins = await this.cg.getCoinsList();
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    return this.coinGeckCoins;
   }
 
   private async recursiveFetch() {
     const coinsToFetch = this.getCoinIds();
     if (coinsToFetch.length > 0) {
-      const result = await this.cg.getSimplePrice(coinsToFetch, ['usd']);
-      this.dispath(priceUpdate(this.convertResultIdsBackToTickers(result.data)));
-      console.log("CG RESULT", result);
+      try {
+        const result = await this.cg.getSimplePrice(coinsToFetch, ['usd']);
+        this.dispath(priceUpdate(await this.convertResultIdsBackToTickers(result.data)));
+        console.log("CG RESULT", result);
+      } catch (e) {
+        console.error(e);
+      }
     }
     clearTimeout(this.fetchTimer);
     this.fetchTimer = setTimeout(() => {
@@ -45,8 +58,9 @@ export class CoinGeckoService {
     }, this.fetchRate);
   }
 
-  private convertResultIdsBackToTickers(result: ISimplePrice): {[ticker: string]: number} {
+  private async convertResultIdsBackToTickers(result: ISimplePrice): Promise<{[ticker: string]: number}> {
     const convertedResult: {[ticker: string]: number} = {};
+    await this.fetchCoinList();
     for (const coinId of Object.keys(result)) {
       const cgCoin = this.coinGeckCoins?.data?.find(cgCoin => cgCoin.id.toLowerCase() === coinId.toLowerCase());
       if (cgCoin) {

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from '../../models/user';
+import { AppplicationState } from '../combineReducers';
 import { apiCallBegan } from "../middleware/api-middleware";
 
 export interface UserState {
@@ -106,9 +107,9 @@ export const userReceivedAction = userReceived;
 export const userLoggedOutAction = userLoggedOut;
 export const userLoggedInAction = userLoggedIn;
 
-export const getUserState = (state: any) => state.user;
+export const getUserState = (state: AppplicationState) => state.user;
 
-export const getCurrentUser = (state: any) => state.user.current;
+export const getCurrentUser = (state: AppplicationState) => state.user.current;
 
 export const fetchUser = () => (dispatch: any, getState: any) => {
   return dispatch(

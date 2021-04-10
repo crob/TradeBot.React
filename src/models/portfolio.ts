@@ -1,25 +1,23 @@
 import { SyncStatus } from '../enums/sync-status';
+import { BaseModel } from './base-model';
 
-export interface Portfolio {
-  id: number;
+export interface Portfolio extends BaseModel {
   userId: number;
-  createdAt: string;
-  updatedAt: string;
   lastSyncAt: string | null;
   syncStatus: SyncStatus;
   portfolioAssets: PortfolioAsset[];
 }
 
-export interface PortfolioAsset {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
+export interface PortfolioAsset extends BaseModel {
   coin: string;
   amount: number;
   averagePrice: number;
-  total: number;
+  totalInvested: number;
   portfolioId: number;
   currentPrice: number;
   unrealizedValue: number;
   totalValue: number;
+  realizedPnLShort: number;
+  realizedPnLLong: number;
+  percentageOfPortfolio: number;
 }

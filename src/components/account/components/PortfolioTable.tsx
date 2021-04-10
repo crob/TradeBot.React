@@ -1,18 +1,16 @@
 import { Table, TableCaption, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Portfolio, PortfolioAsset } from '../../../models/portfolio';
-import { getPortfolioState } from '../../../store/reducers/portfolio.reducer';
+import React from 'react';
+import { PortfolioAsset } from '../../../models/portfolio';
 import PortfolioTableRow from './PortfolioTableRow';
 
-export interface PortfolioTableProps {}
+export interface PortfolioTableProps {
+  portfolioAssets: PortfolioAsset[] | undefined,
+  linkCoins?: boolean
+}
 
-const PortfolioTable: React.FC<PortfolioTableProps> = () => {
-  const portfolioState: Portfolio | null = useSelector(getPortfolioState);
-  useEffect(() => {}, [portfolioState]);
-
+const PortfolioTable: React.FC<PortfolioTableProps> = (props: PortfolioTableProps) => {
   const getSortedArray = () => {
-    return [...portfolioState?.portfolioAssets || []].sort((a, b) => (a.totalValue < b.totalValue) ? 1 : -1 );
+    return [...props?.portfolioAssets || []].sort((a, b) => (a.totalValue < b.totalValue) ? 1 : -1 );
   }
 
   const getContent = () => {
@@ -23,16 +21,18 @@ const PortfolioTable: React.FC<PortfolioTableProps> = () => {
           <Tr>
             <Th color="white">Coin</Th>
             <Th color="white" isNumeric>Hodlings</Th>
+            <Th color="white" isNumeric>%</Th>
+            <Th color="white" isNumeric>Current Price</Th>
+            <Th color="white" isNumeric>Average Price</Th>
             <Th color="white" isNumeric>Total</Th>
+            <Th color="white" isNumeric>Investment</Th>
             <Th color="white" isNumeric>PnL</Th>
             <Th color="white" isNumeric>PnL %</Th>
-            <Th color="white" isNumeric>Current Price</Th>
-            <Th color="white" isNumeric>Investment</Th>
-            <Th color="white" isNumeric>Average Price</Th>
+            <Th color="white" isNumeric>Realized PnL S|L</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {getSortedArray()?.map((portfolioAsset: PortfolioAsset) => <PortfolioTableRow key={portfolioAsset.id} portfolioAsset={portfolioAsset} />)}
+          {getSortedArray()?.map((portfolioAsset: PortfolioAsset) => <PortfolioTableRow linkCoins={props.linkCoins} key={portfolioAsset.id} portfolioAsset={portfolioAsset} />)}
         </Tbody>
       </Table>
     )
@@ -40,9 +40,13 @@ const PortfolioTable: React.FC<PortfolioTableProps> = () => {
 
   return (
     <>
-      {(portfolioState) ? getContent() : ''}
+      {(props.portfolioAssets && props.portfolioAssets?.length > 0) ? getContent() : ''}
     </>
    );
 }
+
+PortfolioTable.defaultProps = {
+  linkCoins: true
+};
 
 export default PortfolioTable;
