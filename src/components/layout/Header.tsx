@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Flex, Box, Menu, MenuButton, Button, MenuList, MenuItem } from '@chakra-ui/react';
+import { Flex, Box, Menu, MenuButton, Button, MenuList, MenuItem, useColorMode } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, getUserState, logout, UserState } from '../../store/reducers/user.reducer';

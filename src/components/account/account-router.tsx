@@ -22,7 +22,7 @@ const AccountRouter: React.FC<any> = (props: any) => {
         <SideBar />
         <Box  margin="0 20px">
           <Switch>
-            <ProtectedRoute path="/account/asset/:coin" exact component={PortfolioAssetPage} />
+            <ProtectedRoute path="/account/asset/:id" exact component={PortfolioAssetPage} />
             <ProtectedRoute path="/account/exchanges" exact component={ExchangeIndex} />
 
             <ProtectedRoute path="/account" exact component={AccountIndex} />

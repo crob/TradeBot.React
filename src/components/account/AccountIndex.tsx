@@ -4,13 +4,13 @@ import { Box } from '@chakra-ui/react';
 
 import PortfolioHeader from './components/PortfolioHeader';
 import PortfolioTable from './components/PortfolioTable';
-import { getPortfolioState } from '../../store/reducers/portfolio.reducer';
+import { getPortfolio } from '../../store/reducers/portfolio.reducer';
 import { Portfolio } from '../../models/portfolio';
 
 export interface AccountIndexProps {}
 
 const AccountIndex: React.FC<AccountIndexProps> = () => {
-  const portfolioState: Portfolio | null = useSelector(getPortfolioState);
+  const portfolioState: Portfolio | null = useSelector(getPortfolio);
   // const user = useSelector(getCurrentUser);
   useEffect(() => {}, [portfolioState]);
 

@@ -43,7 +43,15 @@ const apiMiddleware = ({ dispatch }: any) => (next: any) => async (action: any) 
     }
   } catch (error) {
     // try and get the errors the server responded with
-    let errors = error.response.data?.errors;
+    let message = error.response.data?.message;
+    let errors = [];
+    if (message) {
+      try {
+        errors = JSON.parse(message)?.errors;
+      } catch(e) {
+
+      }
+    }
     if (!errors) {
       /*
         if we had an unexpected or a validation error we didn't
@@ -56,11 +64,9 @@ const apiMiddleware = ({ dispatch }: any) => (next: any) => async (action: any) 
     if (errors) {
       errors = ErrorHelper.normaliseErrorMessages(errors);
     }
-
     // General
     dispatch(apiCallFailed(errors));
     // Specific
-    console.log("errors", errors);
     if (onError) dispatch({ type: onError, payload: errors });
   }
 };

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
 import { Portfolio, PortfolioAsset } from '../../models/portfolio';
 import { AppplicationState } from '../combineReducers';
 import { apiCallBegan } from '../middleware/api-middleware';
@@ -8,11 +7,15 @@ import { apiCallBegan } from '../middleware/api-middleware';
 export interface PortfolioState {
   portfolio: Portfolio | null;
   loading: boolean;
+  loadingAssets: boolean;
+  hasFetchedHoldings: boolean;
 }
 
 const initState: PortfolioState = {
   portfolio: null,
-  loading: false
+  loading: false,
+  loadingAssets: false,
+  hasFetchedHoldings: false
 };
 
 const slice = createSlice({
@@ -42,7 +45,28 @@ const slice = createSlice({
         }
       }
 
-    }
+    },
+    portfolioAssetsRequested: (portfolioState: PortfolioState, action: PayloadAction<PortfolioAsset[]>) => {
+      portfolioState.loadingAssets = true;
+    },
+    portfolioAssetsRequestFailed: (portfolioState: PortfolioState, action: PayloadAction) => {
+      portfolioState.loadingAssets = false;
+    },
+    portfolioAssetsReceived: (portfolioState: PortfolioState, action: PayloadAction<PortfolioAsset[]>) => {
+      portfolioState.loadingAssets = false;
+      portfolioState.hasFetchedHoldings = true;
+      action.payload = action.payload.map((portfolioAssetWithHolding: PortfolioAsset) => {
+        const currentPortfolioAsset = portfolioState.portfolio?.portfolioAssets?.find((portfolioAsset: PortfolioAsset) => portfolioAsset.id === portfolioAssetWithHolding.id)
+        return {...currentPortfolioAsset, ...portfolioAssetWithHolding};
+      })
+      portfolioState.portfolio!.portfolioAssets = [];
+      portfolioState.portfolio!.portfolioAssets  = action.payload;
+    },
+    portfolioSyncRequested: (portfolioState: PortfolioState, action: PayloadAction<Portfolio>) => {},
+    portfolioSyncRequestFailed: (portfolioState: PortfolioState, action: PayloadAction) => {},
+    portfolioSyncReceived: (portfolioState: PortfolioState, action: PayloadAction<Portfolio>) => {
+      portfolioState.portfolio  = action.payload;
+    },
   },
 });
 
@@ -50,14 +74,21 @@ export const {
   portfolioRequested,
   portfolioRequestFailed,
   portfolioReceived,
-  priceUpdate
+  priceUpdate,
+  portfolioAssetsRequested,
+  portfolioAssetsRequestFailed,
+  portfolioAssetsReceived,
+  portfolioSyncRequested,
+  portfolioSyncRequestFailed,
+  portfolioSyncReceived
 } = slice.actions;
 
 export default slice.reducer;
 
-export const getPortfolioState = (state: AppplicationState): Portfolio | null => state.portfolio.portfolio;
-export const getPortfolioAssetByCoin = (coin: string) => (state: AppplicationState): PortfolioAsset | undefined => (
-  state.portfolio.portfolio?.portfolioAssets?.find((portfolioAsset: PortfolioAsset) => portfolioAsset.coin === coin)
+export const getPortfolio = (state: AppplicationState): Portfolio | null => state.portfolio.portfolio;
+export const getPortfolioState = (state: AppplicationState): PortfolioState => state.portfolio;
+export const getPortfolioAssetById = (id: number) => (state: AppplicationState): PortfolioAsset | undefined => (
+  state.portfolio.portfolio?.portfolioAssets?.find((portfolioAsset: PortfolioAsset) => portfolioAsset.id === id)
 )
 
 export const fetchPortfolio = () => (dispatch: any, getState: any) => {
@@ -67,6 +98,28 @@ export const fetchPortfolio = () => (dispatch: any, getState: any) => {
       onStart: portfolioRequested.type,
       onSuccess: portfolioReceived.type,
       onError: portfolioRequestFailed.type,
+    })
+  );
+};
+
+export const syncPortfolio = () => (dispatch: any, getState: any) => {
+  return dispatch(
+    apiCallBegan({
+      url: "portfolio/sync",
+      onStart: portfolioSyncRequested.type,
+      onSuccess: portfolioSyncReceived.type,
+      onError: portfolioSyncRequestFailed.type,
+    })
+  );
+};
+
+export const fetchPortfolioAssets = () => (dispatch: any, getstate: AppplicationState) => {
+  return dispatch(
+    apiCallBegan({
+      url: "portfolio/assets",
+      onStart: portfolioAssetsRequested.type,
+      onSuccess: portfolioAssetsReceived.type,
+      onError: portfolioAssetsReceived.type,
     })
   );
 };

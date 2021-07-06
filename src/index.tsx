@@ -6,21 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 // import ToastMessaging from './components/shared/ToastMessaging';
 import customTheme from "./theme";
-import { ThemeProvider } from '@emotion/react';
-import { CSSReset } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
+console.log("there", customTheme)
 ReactDOM.render(
   <React.StrictMode>
+    <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
     <BrowserRouter>
-      <ThemeProvider theme={customTheme}>
-        <CSSReset />
+      <ChakraProvider theme={customTheme}>
         <Provider store={configureStore()}>
           <App />
           {/* <ToastMessaging /> */}
         </Provider>
-      </ThemeProvider>
+      </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

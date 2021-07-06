@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { PortfolioAsset } from '../../../models/portfolio';
-import { getPortfolioAssetByCoin } from '../../../store/reducers/portfolio.reducer';
+import { fetchPortfolioAssets, getPortfolioAssetById, getPortfolioState, PortfolioState } from '../../../store/reducers/portfolio.reducer';
 import { Link } from '../../shared/ChakraLinkFix';
 import H1 from '../../shared/ui/H1';
 import PortfolioTable from '../components/PortfolioTable';
@@ -11,18 +11,26 @@ import PortfolioTable from '../components/PortfolioTable';
 export interface PortfolioAssetPageProps {}
 
 const PortfolioAssetPage: React.FC<PortfolioAssetPageProps> = () => {
-  const { coin } = useParams() as any;
-  // const dispatch = useDispatch();
-  const asset: PortfolioAsset = useSelector(getPortfolioAssetByCoin(coin)) as PortfolioAsset;
+  const { id } = useParams() as any;
+  const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  const portfolioState: PortfolioState = useSelector(getPortfolioState);
+
+  if (!portfolioState.loadingAssets && portfolioState.hasFetchedHoldings === false) {
+    dispatch(fetchPortfolioAssets());
+  }
+  const asset: PortfolioAsset = useSelector(getPortfolioAssetById(parseInt(id, 10))) as PortfolioAsset;
+
+  useEffect(() => {
+    console.log("Here", asset)
+  }, [portfolioState]);
 
   return (
     <>
       <Box margin="0 20px">
         <Link to='/account'>Back to Portfolio</Link>
-        <H1>{coin} Holdings</H1>
-        <PortfolioTable portfolioAssets={[asset]} linkCoins={false} />
+        <H1>{asset?.coin} Holdings</H1>
+        { (asset) ? <PortfolioTable portfolioAssets={[asset]} linkCoins={false} /> : '' }
       </Box>
     </>
    );

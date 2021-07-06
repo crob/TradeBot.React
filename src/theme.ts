@@ -1,4 +1,5 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from '@chakra-ui/react';
+import { mode } from "@chakra-ui/theme-tools";
 
 const inputLGStyle = {
   h: 20,
@@ -10,12 +11,28 @@ const inputLGStyle = {
 
 
 const theme = extendTheme({
-  initialColorMode: "dark",
-  useSystemColorMode: false,
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
   fonts: {
     body: "Roboto, arial",
     heading: "inherit",
     mono: "inherit"
+  },
+  colors: {
+    whiteAlpha: {
+      50: "rgba(255, 255, 255, 0.04)",
+      100: "rgba(255, 255, 255, 0.06)",
+      200: "rgba(255, 255, 255, 0.06)",
+      300: "rgba(255, 255, 255, 0.06)",
+      400: "rgba(255, 255, 255, 0.06)",
+      500: "rgba(255, 255, 255, 0.06)",
+      600: "rgba(255, 255, 255, 0.06)",
+      700: "rgba(255, 255, 255, 0.06)",
+      800: "rgba(255, 255, 255, 0.06)",
+      900: "rgba(255, 255, 255, 0.96)"
+    }
   },
   fontSizes: {
     xs: "1rem",
@@ -56,10 +73,22 @@ const theme = extendTheme({
         variant: "outline"
       }
     },
+    Select: {
+      sizes: {
+        lg: {
+          field: inputLGStyle,
+          addon: inputLGStyle
+        }
+      },
+      defaultProps: {
+        size: 'lg',
+        variant: "outline"
+      }
+    },
     Button: {
-      // 1. We can update the base styles
       baseStyle: {
         borderRadius: 'none',
+        color: "#ffffff"
       },
       sizes: {
         lg: {

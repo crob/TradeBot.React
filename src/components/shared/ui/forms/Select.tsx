@@ -14,6 +14,8 @@ export interface MySelectProps extends FormControlProps {
   defaultValue?: any;
   inputRef: any;
   errors: any;
+  size?: string;
+  variant?: string,
   enums: any[];
 }
 
@@ -26,6 +28,8 @@ const Select: React.FunctionComponent<MySelectProps> = (props: MySelectProps) =>
     mt = "3",
     defaultValue,
     enums = [],
+    variant = 'outline',
+    size = 'lg',
     ...rest
   } = props;
 
@@ -40,10 +44,12 @@ const Select: React.FunctionComponent<MySelectProps> = (props: MySelectProps) =>
     <FormControl mt={mt} isInvalid={!!errors[id]} {...rest}>
       <FormLabel color={(!!errors[id]) ? 'red.500' : 'inherit'} htmlFor={id}>{label}</FormLabel>
       <ChakraSelect
+        variant={variant}
         ref={inputRef}
         defaultValue={defaultValue || ""}
         id={id}
         name={id}
+        size={'lg'}
         aria-describedby={errors[id] ? `${id}_errors` : undefined}
       >
         <option value="">Choose</option>

@@ -4,13 +4,13 @@ import 'whatwg-fetch';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Portfolio } from '../../models/portfolio';
-import { getPortfolioState } from '../../store/reducers/portfolio.reducer';
+import { getPortfolio } from '../../store/reducers/portfolio.reducer';
 import { CoinGeckoService } from '../../services/coingecko.service';
 
 export interface CoinGeckoPriceGrabberProps {}
 
 const CoinGeckoPriceGrabber: React.FC<CoinGeckoPriceGrabberProps> = () => {
-  const portfolioState: Portfolio | null = useSelector(getPortfolioState);
+  const portfolioState: Portfolio | null = useSelector(getPortfolio);
   const dispath = useDispatch();
   // const user = useSelector(getCurrentUser);
   useEffect(() => {

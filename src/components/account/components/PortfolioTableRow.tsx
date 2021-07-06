@@ -16,7 +16,7 @@ const PortfolioTableRow: React.FC<PortfolioTableRowProps> = (props: PortfolioTab
   const getContent = () => {
     return (
       <>
-        <Td>{(linkCoins) ? <Link to={`/account/asset/${portfolioAsset.coin}`}>{portfolioAsset.coin}</Link> : portfolioAsset.coin}</Td>
+        <Td>{(linkCoins) ? <Link to={`/account/asset/${portfolioAsset.id}`}>{portfolioAsset.coin}</Link> : portfolioAsset.coin}</Td>
         <Td isNumeric>{portfolioAsset.amount.toFixed(3)}</Td>
         <Td isNumeric><NumberFormat value={portfolioAsset.percentageOfPortfolio?.toFixed(2)} defaultValue={0} displayType={'text'} thousandSeparator={true} suffix={'%'} /></Td>
         <Td isNumeric><NumberFormat value={portfolioAsset.currentPrice?.toFixed(2)} defaultValue={0} displayType={'text'} thousandSeparator={true} prefix={'$'} /></Td>
